@@ -1,0 +1,34 @@
+const renderToDoItem = (targetDiv, toDoItemObj) => {
+  content = document.getElementById(targetDiv);
+  let todoItem = document.createElement("div");
+  todoItem.setAttribute("class", "todoitem");
+  let todoItemToggle = document.createElement("input");
+  todoItemToggle.setAttribute("type", "checkbox");
+  let todoItemTitle = document.createElement("h2");
+  todoItemTitle.setAttribute("class", "todoitemtitle");
+  todoItemTitle.innerHTML = toDoItemObj.title;
+  let todoItemDesc = document.createElement("p");
+  todoItemDesc.setAttribute("class", "todoitemdesc");
+  todoItemDesc.innerHTML = toDoItemObj.description;
+  let todoItemPriority = document.createElement("select");
+  todoItemPriority.setAttribute("name", "priority");
+  todoItemPriority.setAttribute("id", "priority");
+  let priorityHigh = document.createElement("option");
+  priorityHigh.setAttribute("value", "high");
+  priorityHigh.innerHTML = "High";
+  let priorityMedium = document.createElement("option");
+  priorityMedium.setAttribute("value", "medium");
+  priorityMedium.innerHTML = "Medium";
+  let priorityLow = document.createElement("option");
+  priorityLow.setAttribute("value", "low");
+  priorityLow.innerHTML = "Low";
+  todoItemTitle.appendChild(todoItemToggle);
+  todoItemPriority.appendChild(priorityHigh);
+  todoItemPriority.appendChild(priorityMedium);
+  todoItemPriority.appendChild(priorityLow);
+  content.appendChild(todoItemTitle);
+  content.appendChild(todoItemDesc);
+  content.appendChild(todoItemPriority);
+};
+
+export { renderToDoItem };

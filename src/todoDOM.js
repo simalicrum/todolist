@@ -112,7 +112,7 @@ const renderProject = (element, project) => {
   let target = document.getElementById(element);
   let projectDiv = document.createElement("div");
   projectDiv.innerHTML = project.name;
-  projectDiv.setAttribute("id", project.name);
+  projectDiv.setAttribute("id", project.uniqueID);
   projectDiv.addEventListener("click", function showTaskList() {
     document.querySelector(".shown-list").setAttribute("class", "hidden-list");
     document

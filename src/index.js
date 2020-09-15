@@ -82,7 +82,10 @@ document
   .getElementById("new-project-ok")
   .addEventListener("click", function () {
     projects.addToDoList(
-      toDoList(document.getElementById("project-name").value)
+      toDoList(
+        document.getElementById("project-name").value,
+        projects.generateUniqueID()
+      )
     );
     document.getElementById("project-name").value = "";
     renderProject("lists", projects.list[projects.list.length - 1]);

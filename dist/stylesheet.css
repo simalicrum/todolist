@@ -1,0 +1,11 @@
+#add-task-form {
+  display: none;
+}
+
+.hidden-list {
+  display: none;
+}
+
+.shown-list {
+  display: block;
+}

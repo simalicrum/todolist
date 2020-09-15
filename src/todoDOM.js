@@ -1,5 +1,5 @@
-const renderToDoItem = (targetDiv, toDoItemObj) => {
-  content = document.getElementById(targetDiv);
+const renderToDoItem = (element, toDoItemObj) => {
+  content = document.getElementById(element);
   let todoItem = document.createElement("div");
   todoItem.setAttribute("class", "todoitem");
   let todoItemToggle = document.createElement("input");
@@ -31,4 +31,94 @@ const renderToDoItem = (targetDiv, toDoItemObj) => {
   content.appendChild(todoItemPriority);
 };
 
-export { renderToDoItem };
+const renderAddForm = (okButton, formTarget) => {
+  let target = document.getElementById(formTarget);
+  let todoNewItemForm = document.createElement("form");
+  let todoItemTitle = document.createElement("input");
+  todoItemTitle.setAttribute("id", "form-title");
+  let todoItemTitleLabel = document.createElement("label");
+  todoItemTitleLabel.innerHTML = "Title";
+  let todoItemDescription = document.createElement("input");
+  todoItemDescription.setAttribute("id", "form-description");
+  let todoItemDescriptionLabel = document.createElement("label");
+  todoItemDescriptionLabel.innerHTML = "Description";
+  let todoItemDate = document.createElement("input");
+  todoItemDate.setAttribute("id", "form-date");
+  let todoItemDateLabel = document.createElement("label");
+  todoItemDateLabel.innerHTML = "Date";
+  let todoItemPriority = document.createElement("select");
+  todoItemPriority.setAttribute("id", "form-priority");
+  todoItemPriority.setAttribute("name", "priority");
+  let todoItemPriorityLabel = document.createElement("label");
+  todoItemPriorityLabel.innerHTML = "Priority:";
+  let priorityHigh = document.createElement("option");
+  priorityHigh.setAttribute("value", "high");
+  priorityHigh.innerHTML = "High";
+  let priorityMedium = document.createElement("option");
+  priorityMedium.setAttribute("value", "medium");
+  priorityMedium.innerHTML = "Medium";
+  let priorityLow = document.createElement("option");
+  priorityLow.setAttribute("value", "low");
+  priorityLow.innerHTML = "Low";
+  let todoItemAdd = document.createElement("button");
+  todoItemAdd.setAttribute("id", okButton);
+  todoItemAdd.innerHTML = "Add";
+  todoNewItemForm.appendChild(todoItemTitleLabel);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemTitle);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemDescriptionLabel);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemDescription);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemDateLabel);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemDate);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoNewItemForm.appendChild(todoItemPriorityLabel);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  todoItemPriority.appendChild(priorityHigh);
+  todoItemPriority.appendChild(priorityMedium);
+  todoItemPriority.appendChild(priorityLow);
+  todoNewItemForm.appendChild(todoItemPriority);
+  todoNewItemForm.appendChild(document.createElement("br"));
+  target.appendChild(todoNewItemForm);
+  target.appendChild(todoItemAdd);
+};
+
+const showForm = (formId) => {
+  document.getElementById(formId).style.display = "block";
+}
+
+const hideForm = (formId) => {
+  document.getElementById(formId).style.display = "none";
+}
+
+const renderTaskList = (element, taskList) => {
+  let target = document.getElementById(element);
+  let listDiv = document.createElement("div");
+  listDiv.setAttribute("id", taskList.name + "-content");
+  listDiv.setAttribute("class", "hidden-list");
+  target.appendChild(listDiv);
+  taskList.list.forEach(i => renderToDoItem(taskList.name + "-content", i));
+}
+
+const renderListOfProjects = (element, projects) => {
+  let target = document.getElementById(element);
+  projects.list.forEach(i => {
+    let j = document.createElement("div");
+    j.innerHTML = i.name;
+    j.setAttribute("id", i.name);
+    j.addEventListener("click", function showTaskList() {
+      document.querySelector(".shown-list").setAttribute("class", "hidden-list");
+      document.getElementById(i.name + "-content").setAttribute("class", "shown-list");
+    })
+    target.appendChild(j);
+  });
+}
+
+const renderProjectForm = () => {
+  
+}
+
+export { renderToDoItem, renderAddForm, showForm, hideForm, renderTaskList, renderListOfProjects, renderProjectForm };

@@ -105,33 +105,21 @@ const renderTaskList = (element, taskList) => {
 
 const renderProject = (element, project) => {
   let target = document.getElementById(element);
-  let project = document.createElement("div");
-  project.innerHTML = project.name;
-  project.setAttribute("id", project.name);
-  project.addEventListener("click", function showTaskList() {
+  let projectDiv = document.createElement("div");
+  projectDiv.innerHTML = project.name;
+  projectDiv.setAttribute("id", project.name);
+  projectDiv.addEventListener("click", function showTaskList() {
     document.querySelector(".shown-list").setAttribute("class", "hidden-list");
     document
-      .getElementById(i.name + "-content")
+      .getElementById(project.name + "-content")
       .setAttribute("class", "shown-list");
   });
-  target.appendChild(project);
+  target.appendChild(projectDiv);
 };
 
 const renderListOfProjects = (element, projects) => {
-  let target = document.getElementById(element);
-  projects.list.forEach((i) => {
-    let j = document.createElement("div");
-    j.innerHTML = i.name;
-    j.setAttribute("id", i.name);
-    j.addEventListener("click", function showTaskList() {
-      document
-        .querySelector(".shown-list")
-        .setAttribute("class", "hidden-list");
-      document
-        .getElementById(i.name + "-content")
-        .setAttribute("class", "shown-list");
-    });
-    target.appendChild(j);
+  projects.list.forEach((project) => {
+    renderProject(element, project);
   });
 };
 
@@ -158,6 +146,7 @@ export {
   showForm,
   hideForm,
   renderTaskList,
+  renderProject,
   renderListOfProjects,
   renderProjectForm,
 };

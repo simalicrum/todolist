@@ -6,6 +6,10 @@
   display: none;
 }
 
+#new-project-button {
+  display: block;
+}
+
 .hidden-list {
   display: none;
 }

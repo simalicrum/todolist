@@ -1,7 +1,7 @@
 const renderToDoItem = (element, toDoItemObj) => {
   content = document.getElementById(element);
   let todoItem = document.createElement("div");
-  todoItem.setAttribute("id", toDoItemObj.title + "-task");
+  todoItem.setAttribute("id", toDoItemObj.uniqueID + "-task");
   todoItem.setAttribute("class", "todoitem");
   let todoItemToggle = document.createElement("input");
   todoItemToggle.setAttribute("type", "checkbox");
@@ -24,7 +24,14 @@ const renderToDoItem = (element, toDoItemObj) => {
   priorityLow.setAttribute("value", "low");
   priorityLow.innerHTML = "Low";
   let todoDelete = document.createElement("button");
+  todoDelete.setAttribute("id", toDoItemObj.uniqueID + "-delete-button");
   todoDelete.innerHTML = "Delete Task";
+  todoDelete.addEventListener("click", function () {
+  //  console.log(document.getElementById(toDoItemObj.uniqueID + "-task"));
+    document
+      .querySelector(".shown-list")
+      .removeChild(document.getElementById(toDoItemObj.uniqueID + "-task"));
+  });
   todoItemTitle.appendChild(todoItemToggle);
   todoItemPriority.appendChild(priorityHigh);
   todoItemPriority.appendChild(priorityMedium);
@@ -102,10 +109,12 @@ const hideForm = (formId) => {
 const renderTaskList = (element, taskList) => {
   let target = document.getElementById(element);
   let listDiv = document.createElement("div");
-  listDiv.setAttribute("id", taskList.name + "-content");
+  listDiv.setAttribute("id", taskList.uniqueID + "-content");
   listDiv.setAttribute("class", "hidden-list");
   target.appendChild(listDiv);
-  taskList.list.forEach((i) => renderToDoItem(taskList.name + "-content", i));
+  taskList.list.forEach((i) =>
+    renderToDoItem(taskList.uniqueID + "-content", i)
+  );
 };
 
 const renderProject = (element, project) => {
@@ -116,7 +125,7 @@ const renderProject = (element, project) => {
   projectDiv.addEventListener("click", function showTaskList() {
     document.querySelector(".shown-list").setAttribute("class", "hidden-list");
     document
-      .getElementById(project.name + "-content")
+      .getElementById(project.uniqueID + "-content")
       .setAttribute("class", "shown-list");
   });
   target.appendChild(projectDiv);

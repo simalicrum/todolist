@@ -17,7 +17,16 @@ const Projects = () => {
   const getTaskListIndex = (toDoListName) => {
     return list.findIndex((element) => element.name == toDoListName);
   };
-  return { list, addToDoList, getTaskListIndex, generateUniqueID };
+  const getTaskListIndexfromUniqueID = (toDoListUniqueID) => {
+    return list.findIndex((element) => element.uniqueID == toDoListUniqueID);
+  };
+  return {
+    list,
+    addToDoList,
+    getTaskListIndex,
+    getTaskListIndexfromUniqueID,
+    generateUniqueID,
+  };
 };
 
 const toDoList = (name, uniqueID) => {
@@ -32,7 +41,21 @@ const toDoList = (name, uniqueID) => {
   const addToDoItem = (toDoItem) => {
     list.push(toDoItem);
   };
-  return { name, uniqueID, list, addToDoItem, generateUniqueID };
+  const getToDoItemIndexfromUniqueID = (toDoItemUniqueID) => {
+    return list.findIndex((element) => element.uniqueID == toDoItemUniqueID);
+  };
+  const removeToDoItem = (uniqueID) => {
+    list.splice(getToDoItemIndexfromUniqueID(uniqueID), 1);
+  };
+  return {
+    name,
+    uniqueID,
+    list,
+    addToDoItem,
+    getToDoItemIndexfromUniqueID,
+    generateUniqueID,
+    removeToDoItem,
+  };
 };
 
 export { toDoItem, Projects, toDoList };

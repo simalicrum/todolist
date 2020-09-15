@@ -10,14 +10,27 @@ import {
   renderProjectForm,
 } from "./todoDOM.js";
 
+function addDeleteButtonLogic(uniqueID) {
+  document
+  .getElementById(uniqueID + "-delete-button")
+  .addEventListener("click", function () {
+    projects.list[
+      projects.getTaskListIndexfromUniqueID(
+        document.querySelector(".shown-list").id.slice(0, -8)
+      )
+    ].removeToDoItem(uniqueID);
+    console.log(projects);
+  });
+}
+
 let projects = Projects();
+
+// Add demo projects and tasks 
 
 projects.addToDoList(toDoList("Default", projects.generateUniqueID()));
 projects.addToDoList(
   toDoList("Build a Rocket Ship", projects.generateUniqueID())
 );
-
-// console.log(projects);
 
 projects.list[projects.getTaskListIndex("Default")].addToDoItem(
   toDoItem(
@@ -48,9 +61,7 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "January 1, 2025",
     "high",
     false,
-    projects.list[
-      projects.getTaskListIndex("Build a Rocket Ship")
-    ].generateUniqueID()
+    projects.list[projects.getTaskListIndex("Build a Rocket Ship")].generateUniqueID()
   )
 );
 
@@ -61,9 +72,7 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "Febuary 15, 2023",
     "high",
     false,
-    projects.list[
-      projects.getTaskListIndex("Build a Rocket Ship")
-    ].generateUniqueID()
+    projects.list[projects.getTaskListIndex("Build a Rocket Ship")].generateUniqueID()
   )
 );
 
@@ -104,8 +113,13 @@ document
   });
 
 document.getElementById("add-task-ok").addEventListener("click", function () {
+  let newUniqueID = projects.list[
+    projects.getTaskListIndexfromUniqueID(
+      document.querySelector(".shown-list").id.slice(0, -8)
+    )
+  ].generateUniqueID();
   projects.list[
-    projects.getTaskListIndex(
+    projects.getTaskListIndexfromUniqueID(
       document.querySelector(".shown-list").id.slice(0, -8)
     )
   ].addToDoItem(
@@ -115,14 +129,9 @@ document.getElementById("add-task-ok").addEventListener("click", function () {
       document.getElementById("form-date").value,
       document.getElementById("form-priority").value,
       false,
-      projects.list[
-        projects.getTaskListIndex(
-          document.querySelector(".shown-list").id.slice(0, -8)
-        )
-      ].generateUniqueID()
+      newUniqueID
     )
   );
-  console.log(projects);
   document.getElementById("form-title").value = "";
   document.getElementById("form-description").value = "";
   document.getElementById("form-date").value = "";
@@ -130,17 +139,18 @@ document.getElementById("add-task-ok").addEventListener("click", function () {
   renderToDoItem(
     document.querySelector(".shown-list").id,
     projects.list[
-      projects.getTaskListIndex(
+      projects.getTaskListIndexfromUniqueID(
         document.querySelector(".shown-list").id.slice(0, -8)
       )
     ].list[
       projects.list[
-        projects.getTaskListIndex(
+        projects.getTaskListIndexfromUniqueID(
           document.querySelector(".shown-list").id.slice(0, -8)
         )
       ].list.length - 1
     ]
   );
+  addDeleteButtonLogic(newUniqueID);
   document.getElementById("add-task-button").style.display = "block";
   hideForm("add-task-form");
 });
@@ -148,6 +158,12 @@ document.getElementById("add-task-ok").addEventListener("click", function () {
 projects.list.forEach((element) => renderTaskList("content", element));
 document
   .getElementById(
-    projects.list[projects.getTaskListIndex("Default")].name + "-content"
+    projects.list[projects.getTaskListIndex("Default")].uniqueID + "-content"
   )
   .setAttribute("class", "shown-list");
+
+// add delete button logic to demo entries
+
+  projects.list.forEach(i => {i.list.forEach(j => {
+    addDeleteButtonLogic(j.uniqueID);
+  })});

@@ -12,8 +12,12 @@ import {
 
 let projects = Projects();
 
-projects.addToDoList(toDoList("Default"));
-projects.addToDoList(toDoList("Build a Rocket Ship"));
+projects.addToDoList(toDoList("Default", projects.generateUniqueID()));
+projects.addToDoList(
+  toDoList("Build a Rocket Ship", projects.generateUniqueID())
+);
+
+// console.log(projects);
 
 projects.list[projects.getTaskListIndex("Default")].addToDoItem(
   toDoItem(
@@ -21,7 +25,8 @@ projects.list[projects.getTaskListIndex("Default")].addToDoItem(
     "Vacuuming the house means that you get out the vacuum cleaner and plug it in and push it around the floor.",
     "November 5, 2020",
     "high",
-    false
+    false,
+    projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
   )
 );
 
@@ -31,7 +36,8 @@ projects.list[projects.getTaskListIndex("Default")].addToDoItem(
     "Put the dishes in the dishwasher and turn it on. Then put the clean dishes into the cupboards.",
     "September 10, 2020",
     "medium",
-    false
+    false,
+    projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
   )
 );
 
@@ -41,7 +47,10 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "Check out indeed.com for good candidates.",
     "January 1, 2025",
     "high",
-    false
+    false,
+    projects.list[
+      projects.getTaskListIndex("Build a Rocket Ship")
+    ].generateUniqueID()
   )
 );
 
@@ -51,7 +60,10 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "Buy the best thing on amazon.",
     "Febuary 15, 2023",
     "high",
-    false
+    false,
+    projects.list[
+      projects.getTaskListIndex("Build a Rocket Ship")
+    ].generateUniqueID()
   )
 );
 
@@ -89,7 +101,6 @@ document
   });
 
 document.getElementById("add-task-ok").addEventListener("click", function () {
-  console.log(document.querySelector(".shown-list").id.slice(0, -8));
   projects.list[
     projects.getTaskListIndex(
       document.querySelector(".shown-list").id.slice(0, -8)
@@ -100,9 +111,15 @@ document.getElementById("add-task-ok").addEventListener("click", function () {
       document.getElementById("form-description").value,
       document.getElementById("form-date").value,
       document.getElementById("form-priority").value,
-      false
+      false,
+      projects.list[
+        projects.getTaskListIndex(
+          document.querySelector(".shown-list").id.slice(0, -8)
+        )
+      ].generateUniqueID()
     )
   );
+  console.log(projects);
   document.getElementById("form-title").value = "";
   document.getElementById("form-description").value = "";
   document.getElementById("form-date").value = "";

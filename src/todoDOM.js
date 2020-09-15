@@ -1,6 +1,7 @@
 const renderToDoItem = (element, toDoItemObj) => {
   content = document.getElementById(element);
   let todoItem = document.createElement("div");
+  todoItem.setAttribute("id", toDoItemObj.title + "-task");
   todoItem.setAttribute("class", "todoitem");
   let todoItemToggle = document.createElement("input");
   todoItemToggle.setAttribute("type", "checkbox");
@@ -22,13 +23,17 @@ const renderToDoItem = (element, toDoItemObj) => {
   let priorityLow = document.createElement("option");
   priorityLow.setAttribute("value", "low");
   priorityLow.innerHTML = "Low";
+  let todoDelete = document.createElement("button");
+  todoDelete.innerHTML = "Delete Task";
   todoItemTitle.appendChild(todoItemToggle);
   todoItemPriority.appendChild(priorityHigh);
   todoItemPriority.appendChild(priorityMedium);
   todoItemPriority.appendChild(priorityLow);
-  content.appendChild(todoItemTitle);
-  content.appendChild(todoItemDesc);
-  content.appendChild(todoItemPriority);
+  todoItem.appendChild(todoItemTitle);
+  todoItem.appendChild(todoItemDesc);
+  todoItem.appendChild(todoItemPriority);
+  todoItem.appendChild(todoDelete);
+  content.appendChild(todoItem);
 };
 
 const renderAddForm = (okButton, formTarget) => {

@@ -88,11 +88,11 @@ const renderAddForm = (okButton, formTarget) => {
 
 const showForm = (formId) => {
   document.getElementById(formId).style.display = "block";
-}
+};
 
 const hideForm = (formId) => {
   document.getElementById(formId).style.display = "none";
-}
+};
 
 const renderTaskList = (element, taskList) => {
   let target = document.getElementById(element);
@@ -100,25 +100,64 @@ const renderTaskList = (element, taskList) => {
   listDiv.setAttribute("id", taskList.name + "-content");
   listDiv.setAttribute("class", "hidden-list");
   target.appendChild(listDiv);
-  taskList.list.forEach(i => renderToDoItem(taskList.name + "-content", i));
-}
+  taskList.list.forEach((i) => renderToDoItem(taskList.name + "-content", i));
+};
+
+const renderProject = (element, project) => {
+  let target = document.getElementById(element);
+  let project = document.createElement("div");
+  project.innerHTML = project.name;
+  project.setAttribute("id", project.name);
+  project.addEventListener("click", function showTaskList() {
+    document.querySelector(".shown-list").setAttribute("class", "hidden-list");
+    document
+      .getElementById(i.name + "-content")
+      .setAttribute("class", "shown-list");
+  });
+  target.appendChild(project);
+};
 
 const renderListOfProjects = (element, projects) => {
   let target = document.getElementById(element);
-  projects.list.forEach(i => {
+  projects.list.forEach((i) => {
     let j = document.createElement("div");
     j.innerHTML = i.name;
     j.setAttribute("id", i.name);
     j.addEventListener("click", function showTaskList() {
-      document.querySelector(".shown-list").setAttribute("class", "hidden-list");
-      document.getElementById(i.name + "-content").setAttribute("class", "shown-list");
-    })
+      document
+        .querySelector(".shown-list")
+        .setAttribute("class", "hidden-list");
+      document
+        .getElementById(i.name + "-content")
+        .setAttribute("class", "shown-list");
+    });
     target.appendChild(j);
   });
-}
+};
 
-const renderProjectForm = () => {
-  
-}
+const renderProjectForm = (okButton, formTarget) => {
+  let target = document.getElementById(formTarget);
+  let newProjectForm = document.createElement("form");
+  let newProjectName = document.createElement("input");
+  newProjectName.setAttribute("id", "project-name");
+  let newProjectNameLabel = document.createElement("label");
+  newProjectNameLabel.innerHTML = "Project Name:";
+  let newProjectAdd = document.createElement("button");
+  newProjectAdd.setAttribute("id", okButton);
+  newProjectAdd.innerHTML = "Add";
+  newProjectForm.appendChild(newProjectNameLabel);
+  newProjectForm.appendChild(document.createElement("br"));
+  newProjectForm.appendChild(newProjectName);
+  target.appendChild(newProjectForm);
+  target.appendChild(newProjectAdd);
+};
 
-export { renderToDoItem, renderAddForm, showForm, hideForm, renderTaskList, renderListOfProjects, renderProjectForm };
+export {
+  renderToDoItem,
+  renderAddForm,
+  showForm,
+  hideForm,
+  renderTaskList,
+  renderListOfProjects,
+  renderProjectForm,
+};

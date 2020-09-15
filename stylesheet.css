@@ -2,6 +2,10 @@
   display: none;
 }
 
+#new-project-form {
+  display: none;
+}
+
 .hidden-list {
   display: none;
 }

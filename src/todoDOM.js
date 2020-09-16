@@ -15,8 +15,8 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItemDesc.setAttribute("class", "to-do-item-desc");
   todoItemDesc.innerHTML = toDoItemObj.description;
   let todoItemPriority = document.createElement("select");
-  todoItemPriority.setAttribute("name", "priority");
-  todoItemPriority.setAttribute("id", "priority");
+  todoItemPriority.setAttribute("name", toDoItemObj.uniqueID + "-priority");
+  todoItemPriority.setAttribute("id", toDoItemObj.uniqueID + "-priority");
   let priorityHigh = document.createElement("option");
   priorityHigh.setAttribute("value", "high");
   priorityHigh.innerHTML = "High";

@@ -1,5 +1,5 @@
 const renderToDoItem = (element, toDoItemObj) => {
-  content = document.getElementById(element);
+  let content = document.getElementById(element);
   let todoItem = document.createElement("div");
   todoItem.setAttribute("id", toDoItemObj.uniqueID + "-task");
   todoItem.setAttribute("class", "to-do-item");
@@ -63,6 +63,7 @@ const renderAddForm = (okButton, formTarget) => {
   let todoItemDescriptionLabel = document.createElement("label");
   todoItemDescriptionLabel.innerHTML = "Description";
   let todoItemDate = document.createElement("input");
+  todoItemDate.setAttribute("type", "date");
   todoItemDate.setAttribute("id", "form-date");
   let todoItemDateLabel = document.createElement("label");
   todoItemDateLabel.innerHTML = "Due Date";
@@ -136,6 +137,8 @@ const renderProject = (element, project) => {
     document
       .getElementById(project.uniqueID + "-content")
       .setAttribute("class", "shown-list");
+    document.querySelectorAll(".project").forEach(element => {element.style.background = "white"});
+    projectDiv.style.background = "lightgrey";
   });
   target.appendChild(projectDiv);
 };
@@ -144,6 +147,7 @@ const renderListOfProjects = (element, projects) => {
   projects.list.forEach((project) => {
     renderProject(element, project);
   });
+  document.getElementById(projects.list[0].uniqueID).style.background = "lightgrey";
 };
 
 const renderProjectForm = (okButton, formTarget) => {

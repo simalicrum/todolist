@@ -25,7 +25,9 @@
 .to-do-item {
   background: grey;
   margin: 10px;
+  margin-left: 0px;
   padding: 10px;
+  width: 50%;
 }
 
 #lists {

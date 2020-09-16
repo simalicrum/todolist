@@ -2,7 +2,7 @@ const renderToDoItem = (element, toDoItemObj) => {
   content = document.getElementById(element);
   let todoItem = document.createElement("div");
   todoItem.setAttribute("id", toDoItemObj.uniqueID + "-task");
-  todoItem.setAttribute("class", "todoitem");
+  todoItem.setAttribute("class", "to-do-item");
   let todoItemToggle = document.createElement("input");
   todoItemToggle.setAttribute("type", "checkbox");
   todoItemToggle.setAttribute("id", toDoItemObj.uniqueID + "-toggle-done");
@@ -14,6 +14,8 @@ const renderToDoItem = (element, toDoItemObj) => {
   let todoItemDesc = document.createElement("p");
   todoItemDesc.setAttribute("class", "to-do-item-desc");
   todoItemDesc.innerHTML = toDoItemObj.description;
+  let todoItemDate = document.createElement("div");
+  todoItemDate.innerHTML = "Due Date: " + toDoItemObj.dueDate;
   let todoItemPriority = document.createElement("select");
   todoItemPriority.setAttribute("name", toDoItemObj.uniqueID + "-priority");
   todoItemPriority.setAttribute("id", toDoItemObj.uniqueID + "-priority");
@@ -40,7 +42,11 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItem.appendChild(todoItemToggle);
   todoItem.appendChild(todoItemTitle);
   todoItem.appendChild(todoItemDesc);
+  todoItem.appendChild(todoItemDate);
+  todoItem.appendChild(document.createElement("br"));
   todoItem.appendChild(todoItemPriority);
+  todoItem.appendChild(document.createElement("br"));
+  todoItem.appendChild(document.createElement("br"));
   todoItem.appendChild(todoDelete);
   content.appendChild(todoItem);
 };
@@ -59,7 +65,7 @@ const renderAddForm = (okButton, formTarget) => {
   let todoItemDate = document.createElement("input");
   todoItemDate.setAttribute("id", "form-date");
   let todoItemDateLabel = document.createElement("label");
-  todoItemDateLabel.innerHTML = "Date";
+  todoItemDateLabel.innerHTML = "Due Date";
   let todoItemPriority = document.createElement("select");
   todoItemPriority.setAttribute("id", "form-priority");
   todoItemPriority.setAttribute("name", "priority");
@@ -124,6 +130,7 @@ const renderProject = (element, project) => {
   let projectDiv = document.createElement("div");
   projectDiv.innerHTML = project.name;
   projectDiv.setAttribute("id", project.uniqueID);
+  projectDiv.setAttribute("class", "project");
   projectDiv.addEventListener("click", function showTaskList() {
     document.querySelector(".shown-list").setAttribute("class", "hidden-list");
     document

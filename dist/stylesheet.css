@@ -17,3 +17,7 @@
 .shown-list {
   display: block;
 }
+
+.to-do-item-title {
+  font-size: 24px;
+}

@@ -12,20 +12,62 @@ import {
 
 function addDeleteButtonLogic(uniqueID) {
   document
-  .getElementById(uniqueID + "-delete-button")
-  .addEventListener("click", function () {
+    .getElementById(uniqueID + "-delete-button")
+    .addEventListener("click", function () {
+      projects.list[
+        projects.getTaskListIndexfromUniqueID(
+          document.querySelector(".shown-list").id.slice(0, -8)
+        )
+      ].removeToDoItem(uniqueID);
+      console.log(projects);
+    });
+}
+
+function returnTaskItem(uniqueID) {
+  return projects.list[
+    projects.getTaskListIndexfromUniqueID(
+      document.querySelector(".shown-list").id.slice(0, -8)
+    )
+  ].list[
     projects.list[
       projects.getTaskListIndexfromUniqueID(
         document.querySelector(".shown-list").id.slice(0, -8)
       )
-    ].removeToDoItem(uniqueID);
-    console.log(projects);
+    ].getToDoItemIndexfromUniqueID(uniqueID)
+  ];
+}
+
+function addDoneToggleLogic(uniqueID) {
+  let toggleElement = document.getElementById(uniqueID + "-toggle-done");
+  toggleElement.addEventListener("click", function () {
+    let taskItemFound =
+      projects.list[
+        projects.getTaskListIndexfromUniqueID(
+          document.querySelector(".shown-list").id.slice(0, -8)
+        )
+      ].list[
+        projects.list[
+          projects.getTaskListIndexfromUniqueID(
+            document.querySelector(".shown-list").id.slice(0, -8)
+          )
+        ].getToDoItemIndexfromUniqueID(uniqueID)
+      ];
+    if (toggleElement.checked == true) {
+      taskItemFound.done = true;
+      console.log("This is toggled on too");
+      console.log(taskItemFound);
+
+    } else {
+      taskItemFound.done = false;
+      console.log("This is toggled off too");
+      console.log(taskItemFound);
+    }
   });
 }
 
 let projects = Projects();
 
-// Add demo projects and tasks 
+// Add demo projects and tasks
 
 projects.addToDoList(toDoList("Default", projects.generateUniqueID()));
 projects.addToDoList(
@@ -61,7 +103,9 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "January 1, 2025",
     "high",
     false,
-    projects.list[projects.getTaskListIndex("Build a Rocket Ship")].generateUniqueID()
+    projects.list[
+      projects.getTaskListIndex("Build a Rocket Ship")
+    ].generateUniqueID()
   )
 );
 
@@ -72,7 +116,9 @@ projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
     "Febuary 15, 2023",
     "high",
     false,
-    projects.list[projects.getTaskListIndex("Build a Rocket Ship")].generateUniqueID()
+    projects.list[
+      projects.getTaskListIndex("Build a Rocket Ship")
+    ].generateUniqueID()
   )
 );
 
@@ -164,6 +210,9 @@ document
 
 // add delete button logic to demo entries
 
-  projects.list.forEach(i => {i.list.forEach(j => {
+projects.list.forEach((i) => {
+  i.list.forEach((j) => {
     addDeleteButtonLogic(j.uniqueID);
-  })});
+    addDoneToggleLogic(j.uniqueID);
+  });
+});

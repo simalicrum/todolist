@@ -5,11 +5,14 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItem.setAttribute("class", "todoitem");
   let todoItemToggle = document.createElement("input");
   todoItemToggle.setAttribute("type", "checkbox");
-  let todoItemTitle = document.createElement("h2");
-  todoItemTitle.setAttribute("class", "todoitemtitle");
+  todoItemToggle.setAttribute("id", toDoItemObj.uniqueID + "-toggle-done");
+  todoItemToggle.setAttribute("name", toDoItemObj.uniqueID + "-toggle-done");
+  let todoItemTitle = document.createElement("label");
+  todoItemTitle.setAttribute("class", "to-do-item-title");
+  todoItemTitle.setAttribute("for", toDoItemObj.uniqueID + "-toggle-done");
   todoItemTitle.innerHTML = toDoItemObj.title;
   let todoItemDesc = document.createElement("p");
-  todoItemDesc.setAttribute("class", "todoitemdesc");
+  todoItemDesc.setAttribute("class", "to-do-item-desc");
   todoItemDesc.innerHTML = toDoItemObj.description;
   let todoItemPriority = document.createElement("select");
   todoItemPriority.setAttribute("name", "priority");
@@ -27,15 +30,14 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoDelete.setAttribute("id", toDoItemObj.uniqueID + "-delete-button");
   todoDelete.innerHTML = "Delete Task";
   todoDelete.addEventListener("click", function () {
-  //  console.log(document.getElementById(toDoItemObj.uniqueID + "-task"));
     document
       .querySelector(".shown-list")
       .removeChild(document.getElementById(toDoItemObj.uniqueID + "-task"));
   });
-  todoItemTitle.appendChild(todoItemToggle);
   todoItemPriority.appendChild(priorityHigh);
   todoItemPriority.appendChild(priorityMedium);
   todoItemPriority.appendChild(priorityLow);
+  todoItem.appendChild(todoItemToggle);
   todoItem.appendChild(todoItemTitle);
   todoItem.appendChild(todoItemDesc);
   todoItem.appendChild(todoItemPriority);

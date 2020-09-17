@@ -18,29 +18,25 @@ const importProjects = JSON.parse(myStorage.getItem('projects'));
 
 function returnTaskItem(uniqueID) {
   const thing = projects.list.find(
-    (element) => element.getToDoItemIndexfromUniqueID(uniqueID) !== -1
+    (element) => element.getToDoItemIndexfromUniqueID(uniqueID) !== -1,
   );
   return thing.list[thing.getToDoItemIndexfromUniqueID(uniqueID)];
 }
 
 function addDeleteButtonLogic(uniqueID) {
-  document
-    .getElementById(uniqueID + '-delete-button')
-    .addEventListener('click', function () {
-      projects.list[
-        projects.getTaskListIndexfromUniqueID(
-          document.querySelector('.shown-list').id.slice(0, -8)
-        )
-      ].removeToDoItem(uniqueID);
-    });
+  document.getElementById(`${uniqueID}-delete-button`).addEventListener('click', () => {
+    projects.list[
+      projects.getTaskListIndexfromUniqueID(document.querySelector('.shown-list').id.slice(0, -8))
+    ].removeToDoItem(uniqueID);
+  });
 }
 
 function addDoneToggleLogic(uniqueID) {
-  const toggleElement = document.getElementById(uniqueID + '-toggle-done');
-  const taskElement = document.getElementById(uniqueID + '-task');
-  toggleElement.addEventListener('click', function () {
-    let taskItemFound = returnTaskItem(uniqueID);
-    if (toggleElement.checked == true) {
+  const toggleElement = document.getElementById(`${uniqueID}-toggle-done`);
+  const taskElement = document.getElementById(`${uniqueID}-task`);
+  toggleElement.addEventListener('click', () => {
+    const taskItemFound = returnTaskItem(uniqueID);
+    if (toggleElement.checked === true) {
       taskItemFound.done = true;
       taskElement.style.textDecoration = 'line-through';
     } else {
@@ -51,16 +47,14 @@ function addDoneToggleLogic(uniqueID) {
 }
 
 function addPriorityToggleLogic(uniqueID) {
-  let priorityElement = document.getElementById(uniqueID + '-priority');
-  let taskItemFound = returnTaskItem(uniqueID);
+  const priorityElement = document.getElementById(`${uniqueID}-priority`);
+  const taskItemFound = returnTaskItem(uniqueID);
   priorityElement.value = taskItemFound.priority;
-  priorityElement.addEventListener('change', function () {
-    let taskItemFound = returnTaskItem(uniqueID);
+  priorityElement.addEventListener('change', () => {
+    const taskItemFound = returnTaskItem(uniqueID);
     taskItemFound.priority = priorityElement.value;
   });
 }
-
-
 
 // Import projects from localStorage starts here
 
@@ -71,17 +65,8 @@ if (importProjects != null) {
 
   importProjects.list.forEach((i) => {
     i.list.forEach((j) => {
-      projects.list[
-        projects.getTaskListIndexfromUniqueID(i.uniqueID)
-      ].addToDoItem(
-        toDoItem(
-          j.title,
-          j.description,
-          j.dueDate,
-          j.priority,
-          j.done,
-          j.uniqueID
-        )
+      projects.list[projects.getTaskListIndexfromUniqueID(i.uniqueID)].addToDoItem(
+        toDoItem(j.title, j.description, j.dueDate, j.priority, j.done, j.uniqueID),
       );
     });
   });
@@ -90,11 +75,9 @@ if (importProjects != null) {
 
 // Add demo projects and tasks
 
-if (projects.list.length == 0) {
+if (projects.list.length === 0) {
   projects.addToDoList(toDoList('Default', projects.generateUniqueID()));
-  projects.addToDoList(
-    toDoList('Build a Rocket Ship', projects.generateUniqueID())
-  );
+  projects.addToDoList(toDoList('Build a Rocket Ship', projects.generateUniqueID()));
 
   projects.list[projects.getTaskListIndex('Default')].addToDoItem(
     toDoItem(
@@ -103,8 +86,8 @@ if (projects.list.length == 0) {
       'November 5, 2020',
       'medium',
       false,
-      projects.list[projects.getTaskListIndex('Default')].generateUniqueID()
-    )
+      projects.list[projects.getTaskListIndex('Default')].generateUniqueID(),
+    ),
   );
 
   projects.list[projects.getTaskListIndex('Default')].addToDoItem(
@@ -114,8 +97,8 @@ if (projects.list.length == 0) {
       'September 10, 2020',
       'medium',
       false,
-      projects.list[projects.getTaskListIndex('Default')].generateUniqueID()
-    )
+      projects.list[projects.getTaskListIndex('Default')].generateUniqueID(),
+    ),
   );
 
   projects.list[projects.getTaskListIndex('Build a Rocket Ship')].addToDoItem(
@@ -125,10 +108,8 @@ if (projects.list.length == 0) {
       'January 1, 2025',
       'low',
       false,
-      projects.list[
-        projects.getTaskListIndex('Build a Rocket Ship')
-      ].generateUniqueID()
-    )
+      projects.list[projects.getTaskListIndex('Build a Rocket Ship')].generateUniqueID(),
+    ),
   );
 
   projects.list[projects.getTaskListIndex('Build a Rocket Ship')].addToDoItem(
@@ -138,58 +119,43 @@ if (projects.list.length == 0) {
       'Febuary 15, 2023',
       'low',
       false,
-      projects.list[
-        projects.getTaskListIndex('Build a Rocket Ship')
-      ].generateUniqueID()
-    )
+      projects.list[projects.getTaskListIndex('Build a Rocket Ship')].generateUniqueID(),
+    ),
   );
 }
 renderListOfProjects('lists', projects);
 
 renderProjectForm('new-project-ok', 'new-project-form');
 
-document
-  .getElementById('new-project-button')
-  .addEventListener('click', function () {
-    document.getElementById('new-project-button').style.display = 'none';
-    showForm('new-project-form');
-  });
+document.getElementById('new-project-button').addEventListener('click', () => {
+  document.getElementById('new-project-button').style.display = 'none';
+  showForm('new-project-form');
+});
 
-document
-  .getElementById('new-project-ok')
-  .addEventListener('click', function () {
-    projects.addToDoList(
-      toDoList(
-        document.getElementById('project-name').value,
-        projects.generateUniqueID()
-      )
-    );
-    document.getElementById('project-name').value = '';
-    renderProject('lists', projects.list[projects.list.length - 1]);
-    renderTaskList('content', projects.list[projects.list.length - 1]);
-    document.getElementById('new-project-button').style.display = 'block';
-    hideForm('new-project-form');
-  });
+document.getElementById('new-project-ok').addEventListener('click', () => {
+  projects.addToDoList(
+    toDoList(document.getElementById('project-name').value, projects.generateUniqueID()),
+  );
+  document.getElementById('project-name').value = '';
+  renderProject('lists', projects.list[projects.list.length - 1]);
+  renderTaskList('content', projects.list[projects.list.length - 1]);
+  document.getElementById('new-project-button').style.display = 'block';
+  hideForm('new-project-form');
+});
 
 renderAddForm('add-task-ok', 'add-task-form');
 
-document
-  .getElementById('add-task-button')
-  .addEventListener('click', function () {
-    document.getElementById('add-task-button').style.display = 'none';
-    showForm('add-task-form');
-  });
+document.getElementById('add-task-button').addEventListener('click', () => {
+  document.getElementById('add-task-button').style.display = 'none';
+  showForm('add-task-form');
+});
 
-document.getElementById('add-task-ok').addEventListener('click', function () {
-  let newUniqueID = projects.list[
-    projects.getTaskListIndexfromUniqueID(
-      document.querySelector('.shown-list').id.slice(0, -8)
-    )
+document.getElementById('add-task-ok').addEventListener('click', () => {
+  const newUniqueID = projects.list[
+    projects.getTaskListIndexfromUniqueID(document.querySelector('.shown-list').id.slice(0, -8))
   ].generateUniqueID();
   projects.list[
-    projects.getTaskListIndexfromUniqueID(
-      document.querySelector('.shown-list').id.slice(0, -8)
-    )
+    projects.getTaskListIndexfromUniqueID(document.querySelector('.shown-list').id.slice(0, -8))
   ].addToDoItem(
     toDoItem(
       document.getElementById('form-title').value,
@@ -197,8 +163,8 @@ document.getElementById('add-task-ok').addEventListener('click', function () {
       document.getElementById('form-date').value,
       document.getElementById('form-priority').value,
       false,
-      newUniqueID
-    )
+      newUniqueID,
+    ),
   );
   document.getElementById('form-title').value = '';
   document.getElementById('form-description').value = '';
@@ -207,16 +173,12 @@ document.getElementById('add-task-ok').addEventListener('click', function () {
   renderToDoItem(
     document.querySelector('.shown-list').id,
     projects.list[
-      projects.getTaskListIndexfromUniqueID(
-        document.querySelector('.shown-list').id.slice(0, -8)
-      )
+      projects.getTaskListIndexfromUniqueID(document.querySelector('.shown-list').id.slice(0, -8))
     ].list[
       projects.list[
-        projects.getTaskListIndexfromUniqueID(
-          document.querySelector('.shown-list').id.slice(0, -8)
-        )
+        projects.getTaskListIndexfromUniqueID(document.querySelector('.shown-list').id.slice(0, -8))
       ].list.length - 1
-    ]
+    ],
   );
   addDeleteButtonLogic(newUniqueID);
   addDoneToggleLogic(newUniqueID);
@@ -227,9 +189,7 @@ document.getElementById('add-task-ok').addEventListener('click', function () {
 
 projects.list.forEach((element) => renderTaskList('content', element));
 document
-  .getElementById(
-    projects.list[projects.getTaskListIndex('Default')].uniqueID + '-content'
-  )
+  .getElementById(`${projects.list[projects.getTaskListIndex('Default')].uniqueID}-content`)
   .setAttribute('class', 'shown-list');
 
 // add button logic to demo entries
@@ -242,7 +202,7 @@ projects.list.forEach((i) => {
   });
 });
 
-window.addEventListener('beforeunload', function () {
+window.addEventListener('beforeunload', () => {
   myStorage.removeItem('projects');
   myStorage.setItem('projects', JSON.stringify(projects));
 });

@@ -5,20 +5,20 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItem.setAttribute('class', 'to-do-item');
   const todoItemToggle = document.createElement('input');
   todoItemToggle.setAttribute('type', 'checkbox');
-  todoItemToggle.setAttribute('id', toDoItemObj.uniqueID + '-toggle-done');
-  todoItemToggle.setAttribute('name', toDoItemObj.uniqueID + '-toggle-done');
+  todoItemToggle.setAttribute('id', `${toDoItemObj.uniqueID}-toggle-done`);
+  todoItemToggle.setAttribute('name', `${toDoItemObj.uniqueID}-toggle-done`);
   const todoItemTitle = document.createElement('label');
   todoItemTitle.setAttribute('class', 'to-do-item-title');
-  todoItemTitle.setAttribute('for', toDoItemObj.uniqueID + '-toggle-done');
+  todoItemTitle.setAttribute('for', `${toDoItemObj.uniqueID}-toggle-done`);
   todoItemTitle.innerHTML = toDoItemObj.title;
   const todoItemDesc = document.createElement('p');
   todoItemDesc.setAttribute('class', 'to-do-item-desc');
   todoItemDesc.innerHTML = toDoItemObj.description;
   const todoItemDate = document.createElement('div');
-  todoItemDate.innerHTML = 'Due Date: ' + toDoItemObj.dueDate;
+  todoItemDate.innerHTML = `Due Date: ${toDoItemObj.dueDate}`;
   const todoItemPriority = document.createElement('select');
-  todoItemPriority.setAttribute('name', toDoItemObj.uniqueID + '-priority');
-  todoItemPriority.setAttribute('id', toDoItemObj.uniqueID + '-priority');
+  todoItemPriority.setAttribute('name', `${toDoItemObj.uniqueID}-priority`);
+  todoItemPriority.setAttribute('id', `${toDoItemObj.uniqueID}-priority`);
   const priorityHigh = document.createElement('option');
   priorityHigh.setAttribute('value', 'high');
   priorityHigh.innerHTML = 'High';
@@ -29,14 +29,14 @@ const renderToDoItem = (element, toDoItemObj) => {
   priorityLow.setAttribute('value', 'low');
   priorityLow.innerHTML = 'Low';
   const todoDelete = document.createElement('button');
-  todoDelete.setAttribute('id', toDoItemObj.uniqueID + '-delete-button');
+  todoDelete.setAttribute('id', `${toDoItemObj.uniqueID}-delete-button`);
   todoDelete.innerHTML = 'Delete Task';
-  todoDelete.addEventListener('click', function () {
+  todoDelete.addEventListener('click', () => {
     document
       .querySelector('.shown-list')
-      .removeChild(document.getElementById(toDoItemObj.uniqueID + '-task'));
+      .removeChild(document.getElementById(`${toDoItemObj.uniqueID}-task`));
   });
-  if (toDoItemObj.done == true) {
+  if (toDoItemObj.done === true) {
     todoItem.style.textDecoration = 'line-through';
     todoItemToggle.checked = true;
   }
@@ -53,7 +53,6 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItem.appendChild(document.createElement('br'));
   todoItem.appendChild(todoDelete);
   content.appendChild(todoItem);
-  
 };
 
 const renderAddForm = (okButton, formTarget) => {
@@ -121,29 +120,25 @@ const hideForm = (formId) => {
 };
 
 const renderTaskList = (element, taskList) => {
-  let target = document.getElementById(element);
-  let listDiv = document.createElement('div');
-  listDiv.setAttribute('id', taskList.uniqueID + '-content');
+  const target = document.getElementById(element);
+  const listDiv = document.createElement('div');
+  listDiv.setAttribute('id', `${taskList.uniqueID}-content`);
   listDiv.setAttribute('class', 'hidden-list');
   target.appendChild(listDiv);
-  taskList.list.forEach((i) =>
-    renderToDoItem(taskList.uniqueID + '-content', i)
-  );
+  taskList.list.forEach((i) => renderToDoItem(`${taskList.uniqueID}-content`, i));
 };
 
 const renderProject = (element, project) => {
-  let target = document.getElementById(element);
-  let projectDiv = document.createElement('div');
+  const target = document.getElementById(element);
+  const projectDiv = document.createElement('div');
   projectDiv.innerHTML = project.name;
   projectDiv.setAttribute('id', project.uniqueID);
   projectDiv.setAttribute('class', 'project');
-  projectDiv.addEventListener('click', function showTaskList() {
+  projectDiv.addEventListener('click', () => {
     document.querySelector('.shown-list').setAttribute('class', 'hidden-list');
-    document
-      .getElementById(project.uniqueID + '-content')
-      .setAttribute('class', 'shown-list');
-    document.querySelectorAll('.project').forEach((element) => {
-      element.style.background = 'white';
+    document.getElementById(`${project.uniqueID}-content`).setAttribute('class', 'shown-list');
+    document.querySelectorAll('.project').forEach((i) => {
+      i.style.background = 'white';
     });
     projectDiv.style.background = 'lightgrey';
   });
@@ -154,8 +149,7 @@ const renderListOfProjects = (element, projects) => {
   projects.list.forEach((project) => {
     renderProject(element, project);
   });
-  document.getElementById(projects.list[0].uniqueID).style.background =
-    'lightgrey';
+  document.getElementById(projects.list[0].uniqueID).style.background = 'lightgrey';
 };
 
 const renderProjectForm = (okButton, formTarget) => {

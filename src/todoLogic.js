@@ -1,12 +1,17 @@
-const toDoItem = (title, description, dueDate, priority, done, uniqueID) => {
-  return { title, description, dueDate, priority, done, uniqueID };
-};
+const toDoItem = (title, description, dueDate, priority, done, uniqueID) => ({
+  title,
+  description,
+  dueDate,
+  priority,
+  done,
+  uniqueID,
+});
 
 const Projects = () => {
-  let list = [];
+  const list = [];
   const generateUniqueID = () => {
     let newID = Math.floor(Math.random() * 9999);
-    while (list.some((element) => element.uniqueID == newID)) {
+    while (list.some((element) => element.uniqueID === newID)) {
       newID = Math.floor(Math.random() * 9999);
     }
     return newID;
@@ -14,12 +19,8 @@ const Projects = () => {
   const addToDoList = (toDoList) => {
     list.push(toDoList);
   };
-  const getTaskListIndex = (toDoListName) => {
-    return list.findIndex((element) => element.name == toDoListName);
-  };
-  const getTaskListIndexfromUniqueID = (toDoListUniqueID) => {
-    return list.findIndex((element) => element.uniqueID == toDoListUniqueID);
-  };
+  const getTaskListIndex = (toDoListName) => list.findIndex((element) => element.name === toDoListName);
+  const getTaskListIndexfromUniqueID = (toDoListUniqueID) => list.findIndex((element) => element.uniqueID === toDoListUniqueID);
   return {
     list,
     addToDoList,
@@ -30,10 +31,10 @@ const Projects = () => {
 };
 
 const toDoList = (name, uniqueID) => {
-  let list = [];
+  const list = [];
   const generateUniqueID = () => {
     let newID = Math.floor(Math.random() * 9999);
-    while (list.some((element) => element.uniqueID == newID)) {
+    while (list.some((element) => element.uniqueID === newID)) {
       newID = Math.floor(Math.random() * 9999);
     }
     return newID;
@@ -41,9 +42,7 @@ const toDoList = (name, uniqueID) => {
   const addToDoItem = (toDoItem) => {
     list.push(toDoItem);
   };
-  const getToDoItemIndexfromUniqueID = (toDoItemUniqueID) => {
-    return list.findIndex((element) => element.uniqueID == toDoItemUniqueID);
-  };
+  const getToDoItemIndexfromUniqueID = (toDoItemUniqueID) => list.findIndex((element) => element.uniqueID === toDoItemUniqueID);
   const removeToDoItem = (uniqueID) => {
     list.splice(getToDoItemIndexfromUniqueID(uniqueID), 1);
   };

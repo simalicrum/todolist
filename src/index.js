@@ -10,9 +10,13 @@ import {
   renderProjectForm,
 } from "./todoDOM.js";
 
+let myStorage = window.localStorage;
+
+let importProjects = JSON.parse(myStorage.getItem("projects"));
+
 function returnTaskItem(uniqueID) {
-  let thing = projects.list.find(element => 
-    element.getToDoItemIndexfromUniqueID(uniqueID) != -1
+  let thing = projects.list.find(
+    (element) => element.getToDoItemIndexfromUniqueID(uniqueID) != -1
   );
   return thing.list[thing.getToDoItemIndexfromUniqueID(uniqueID)];
 }
@@ -48,69 +52,96 @@ function addPriorityToggleLogic(uniqueID) {
   let priorityElement = document.getElementById(uniqueID + "-priority");
   let taskItemFound = returnTaskItem(uniqueID);
   priorityElement.value = taskItemFound.priority;
-  priorityElement.addEventListener("change", function() {
+  priorityElement.addEventListener("change", function () {
     let taskItemFound = returnTaskItem(uniqueID);
     taskItemFound.priority = priorityElement.value;
-  })
+  });
 }
 
 let projects = Projects();
 
+// Import projects from localStorage starts here
+
+if (importProjects != null) {
+  importProjects.list.forEach((i) => {
+    projects.addToDoList(toDoList(i.name, i.uniqueID));
+  });
+
+  importProjects.list.forEach((i) => {
+    i.list.forEach((j) => {
+      projects.list[
+        projects.getTaskListIndexfromUniqueID(i.uniqueID)
+      ].addToDoItem(
+        toDoItem(
+          j.title,
+          j.description,
+          j.dueDate,
+          j.priority,
+          j.done,
+          j.uniqueID
+        )
+      );
+    });
+  });
+}
+// Import projects ends here
+
 // Add demo projects and tasks
 
-projects.addToDoList(toDoList("Default", projects.generateUniqueID()));
-projects.addToDoList(
-  toDoList("Build a Rocket Ship", projects.generateUniqueID())
-);
+if (projects.list.length == 0) {
+  projects.addToDoList(toDoList("Default", projects.generateUniqueID()));
+  projects.addToDoList(
+    toDoList("Build a Rocket Ship", projects.generateUniqueID())
+  );
 
-projects.list[projects.getTaskListIndex("Default")].addToDoItem(
-  toDoItem(
-    "Vacuum the house",
-    "Vacuuming the house means that you get out the vacuum cleaner and plug it in and push it around the floor.",
-    "November 5, 2020",
-    "medium",
-    false,
-    projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
-  )
-);
+  projects.list[projects.getTaskListIndex("Default")].addToDoItem(
+    toDoItem(
+      "Vacuum the house",
+      "Vacuuming the house means that you get out the vacuum cleaner and plug it in and push it around the floor.",
+      "November 5, 2020",
+      "medium",
+      false,
+      projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
+    )
+  );
 
-projects.list[projects.getTaskListIndex("Default")].addToDoItem(
-  toDoItem(
-    "Do the dishes",
-    "Put the dishes in the dishwasher and turn it on. Then put the clean dishes into the cupboards.",
-    "September 10, 2020",
-    "medium",
-    false,
-    projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
-  )
-);
+  projects.list[projects.getTaskListIndex("Default")].addToDoItem(
+    toDoItem(
+      "Do the dishes",
+      "Put the dishes in the dishwasher and turn it on. Then put the clean dishes into the cupboards.",
+      "September 10, 2020",
+      "medium",
+      false,
+      projects.list[projects.getTaskListIndex("Default")].generateUniqueID()
+    )
+  );
 
-projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
-  toDoItem(
-    "Hire Astronauts",
-    "Check out indeed.com for good candidates.",
-    "January 1, 2025",
-    "low",
-    false,
-    projects.list[
-      projects.getTaskListIndex("Build a Rocket Ship")
-    ].generateUniqueID()
-  )
-);
+  projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
+    toDoItem(
+      "Hire Astronauts",
+      "Check out indeed.com for good candidates.",
+      "January 1, 2025",
+      "low",
+      false,
+      projects.list[
+        projects.getTaskListIndex("Build a Rocket Ship")
+      ].generateUniqueID()
+    )
+  );
 
-projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
-  toDoItem(
-    "Buy Engines",
-    "Buy the best thing on amazon.",
-    "Febuary 15, 2023",
-    "low",
-    false,
-    projects.list[
-      projects.getTaskListIndex("Build a Rocket Ship")
-    ].generateUniqueID()
-  )
-);
-
+  projects.list[projects.getTaskListIndex("Build a Rocket Ship")].addToDoItem(
+    toDoItem(
+      "Buy Engines",
+      "Buy the best thing on amazon.",
+      "Febuary 15, 2023",
+      "low",
+      false,
+      projects.list[
+        projects.getTaskListIndex("Build a Rocket Ship")
+      ].generateUniqueID()
+    )
+  );
+}
 renderListOfProjects("lists", projects);
 
 renderProjectForm("new-project-ok", "new-project-form");
@@ -207,4 +238,9 @@ projects.list.forEach((i) => {
     addDoneToggleLogic(j.uniqueID);
     addPriorityToggleLogic(j.uniqueID);
   });
+});
+
+window.addEventListener("beforeunload", function () {
+  myStorage.removeItem("projects");
+  myStorage.setItem("projects", JSON.stringify(projects));
 });

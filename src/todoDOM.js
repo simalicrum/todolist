@@ -137,7 +137,9 @@ const renderProject = (element, project) => {
     document
       .getElementById(project.uniqueID + "-content")
       .setAttribute("class", "shown-list");
-    document.querySelectorAll(".project").forEach(element => {element.style.background = "white"});
+    document.querySelectorAll(".project").forEach((element) => {
+      element.style.background = "white";
+    });
     projectDiv.style.background = "lightgrey";
   });
   target.appendChild(projectDiv);
@@ -147,7 +149,8 @@ const renderListOfProjects = (element, projects) => {
   projects.list.forEach((project) => {
     renderProject(element, project);
   });
-  document.getElementById(projects.list[0].uniqueID).style.background = "lightgrey";
+  document.getElementById(projects.list[0].uniqueID).style.background =
+    "lightgrey";
 };
 
 const renderProjectForm = (okButton, formTarget) => {

@@ -36,6 +36,10 @@ const renderToDoItem = (element, toDoItemObj) => {
       .querySelector(".shown-list")
       .removeChild(document.getElementById(toDoItemObj.uniqueID + "-task"));
   });
+  if (toDoItemObj.done == true) {
+    todoItem.style.textDecoration = "line-through";
+    todoItemToggle.checked = true;
+  }
   todoItemPriority.appendChild(priorityHigh);
   todoItemPriority.appendChild(priorityMedium);
   todoItemPriority.appendChild(priorityLow);
@@ -49,6 +53,7 @@ const renderToDoItem = (element, toDoItemObj) => {
   todoItem.appendChild(document.createElement("br"));
   todoItem.appendChild(todoDelete);
   content.appendChild(todoItem);
+  
 };
 
 const renderAddForm = (okButton, formTarget) => {

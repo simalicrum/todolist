@@ -1,6 +1,6 @@
 # todolist
 
-A to do list in plain HTML, CSS and Javascript. This project uses [Webpack](https://webpack.js.org/).
+A todo list in plain HTML, CSS and Javascript. This project uses [Webpack](https://webpack.js.org/).
 
 Live server: [https://simalicrum.github.io/todolist/](https://simalicrum.github.io/todolist/)
 
